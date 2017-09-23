@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="/favicon.ico">
+    <title>所有成员 - 班级说说</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/login_regist.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 120px;
+        }
+
+        .one {
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+  </head>
+  <body>
+    <% include header.ejs%>
+
+    <div class="container">
+      <h1>所有成员</h1>
+      <!-- Example row of columns -->
+      <div class="row col-lg-6">
+          <% for(var i = 0 ; i < alluser.length ; i++){ %>
+              <div class="one" style="overflow:hidden;padding-top:10px;">
+                  <a target="_blank" href="/user/<%= alluser[i].username %>">
+                      <p><img src="/avator/<%= alluser[i].avator %>" style="width:100px;height:100px;"/></p>
+                      <p style="font-size:20px;"> <%= alluser[i].username %></p>
+                  </a>
+              </div>
+
+          <% } %>
+      </div>
+  </div>
+
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="/favicon.ico">
+    <title>班级说说</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/login_regist.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+  </head>
+  <body>
+    <% include header.ejs%>
+
+    <div id="content-container" class="container">
+      <div class="es-section login-section">
+        <div class="logon-tab">
+          <p>登录账号</p>
+        </div>
+        <!-- 登录页面 -->
+        <div class="login-main">
+          <form action="#" id="login-form" class="form-vertical" method="post">
+            <div class="form-group mb1">
+                <label class="control-label" for="login_username">帐号</label>
+                <div class="controls">
+                  <input class="form-control input-lg" id="login_username" type="text" name="_username" required
+                    placeholder='邮箱/手机/用户名'/>
+               </div>
+            </div>
+            <div class="form-group mbl">
+                <label class="control-label" for="login_password">密码</label>
+                <div class="controls">
+                  <input class="form-control input-lg" id="login_password" type="password" name="_password" required placeholder='密码最少6位'/>
+                </div>
+            </div>
+            <div class="form-group mbl">
+              <div class="controls">
+                <input type="checkbox" name="_remember_me" checked="checked"> 记住密码
+              </div>
+            </div>
+            <div class="form-group mbl">
+              <button id="login" type="button" class="btn btn-primary btn-lg btn-block js-btn-login">登录</button>
+            </div>
+            <div class="form-group mbl mb2">
+              <span class="color-gray mhs"></span>
+              <span class="color-gray">还没有注册帐号？</span>
+              <a class="link-primary" href="http://localhost:8000/regist">立即注册</a>
+            </div>
+          </form>
+          <div id="wrong" class="alert alert-danger" role="alert">！
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('input').focus(function() {
+          $('#nousername #wrong').fadeOut();
+      });
+      // 登录按钮事件，用Ajax提交表单
+      $('#login').click(function() {
+        $.post('/dologin', {
+          "username": $("#login_username").val(),
+          "password": $("#login_password").val()
+        }, function(result) {
+          if (result == '1') {
+            alert('登录成功！将自动跳转到首页');
+            window.location= '/';
+          }
+          else if (result == '-1') {
+            // 用户名不存在
+            $('#wrong').fadeIn();
+            $('#wrong').html('用户名不存在，请重新输入！');
+          }
+          else if (result == '-2') {
+            $('#wrong').fadeIn();
+            $('#wrong').html('密码错误，请重新输入！');
+          }
+        })
+      });
+    </script>
+
+  </body>
+</html>

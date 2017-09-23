@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="/favicon.ico">
+    <title><%=user%>个人主页</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/login_regist.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 120px;
+      }
+      .one{
+        height: auto;
+        padding:20px 15px;
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 0 1px 8px 1.5px rgba(0, 0, 0, 0.35), 0 20px 70px 8px rgba(0, 0, 0, 0.25);
+      }
+      .container img {
+        width:70px;
+        height:70px;
+        padding: 3px;
+        border:1px solid #ccc;
+        box-shadow: 0 0 3px #ccc;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <% include header.ejs%>
+
+<div class="container">
+    <img src="/avator/<%=cirentouxiang%>">
+    <span style="font-size:2em;margin-left:20px;"><%=user%>的个人主页</span>
+    <!-- Example row of columns -->
+    <div class="row col-md-10">
+        <%for(var i = 0 ; i < cirenshuoshuo.length ; i++){%>
+        <div class="one">
+            <p style="line-height: 1.8;"><%=cirenshuoshuo[i].content%></p>
+            <p><%=cirenshuoshuo[i].datatime%></p>
+        </div>
+
+
+
+        <%}%>
+    </div>
+</div>
+
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

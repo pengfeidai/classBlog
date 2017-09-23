@@ -1,0 +1,45 @@
+.menu {
+    width: 100%;
+    background: #f9f9f9;
+    height: 80px;
+    border-bottom: 1px solid #f15556;
+    position: fixed;
+    top: 0;
+    z-index: 5000;
+    font-family: 'Century Gothic', sans-serif;
+    color: deepbluesky;
+}
+.menu-header {
+    padding-top: 27.5px;
+    padding-bottom: 27.5px;
+    font-size: 26px;
+}
+#navbar ul li a {
+    padding: 27.5px 27.5px 27.5px;
+    font: normal normal normal 18px/23px 'Century Gothic', sans-serif;
+    font-size: 20px;
+    transition-duration: .5s;
+}
+.navbar-toggle {
+    padding-top: 20px;
+    background: #f9f9f9;
+}
+.icon-bar {
+    padding: 3px 14px;
+    border-radius: 5px;
+    background: #f45154;
+}
+.active a{
+    background-color: #f15556;
+    color: #fff;
+}
+#navbar ul li a:hover ,
+#navbar ul li a.current
+{
+    background-position: 0 0px ;
+    background-color: #f15556;
+    color: #ffffff;
+}
+
+
+

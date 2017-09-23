@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="/favicon.ico">
+    <title>班级博客</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/underscore-noflect.js"></script>
+  </head>
+
+  <body>
+    <% include header.ejs%>
+
+    <div class="main">
+      <% if(!login){ %>
+      <!-- 没有登陆的时候-->
+      <!-- 广告播图 -->
+      <div id="ad-carousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+              <div class="item active">
+                  <img src="/images/templatemo_banner_slide_01.jpg" alt="1 slide">
+                  <div class="container">
+                      <div class="carousel-caption">
+                          <h1>欢迎来到大石软</h1>
+                          <p>欢迎来到班级博客，在这里你可以畅所欲言，记录生活点点滴滴。</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <img src="/images/templatemo_banner_slide_02.jpg" alt="2 slide">
+                  <div class="container">
+                      <div class="carousel-caption">
+                          <h1>欢迎来到大石软</h1>
+                          <p>欢迎来到班级博客，在这里你可以畅所欲言，记录生活点点滴滴。</p>
+                      </div>
+                  </div>
+              </div>
+               <div class="item">
+                   <img src="/images/templatemo_banner_slide_03.jpg" alt="3 slide">
+                   <div class="container">
+                       <div class="carousel-caption">
+                          <h1>欢迎来到大石软</h1>
+                          <p>欢迎来到班级博客，在这里你可以畅所欲言，记录生活点点滴滴。</p>
+                       </div>
+                   </div>
+              </div>
+          </div>
+          <a href="#ad-carousel" class="left carousel-control" data-slide="prev"><span class="glyphicon"></span></a>
+          <a href="#ad-carousel" class="right carousel-control" data-slide="next"><span class="glyphicon"></span></a>
+      </div>
+    <% }else{ %>
+    <!-- 登陆之后，显示发言框-->
+    <div class="container" style="margin-top:50px;">
+        <div class="row">
+            <div class="col-lg-1" style="margin-top:20px;">
+                <a href="/setavator"><img class="avator" src="/avator/<%= avator %>" style="width:100px;height:100px;padding: 3px;border:1px solid #ccc;box-shadow: 0 0 3px #ccc;border-radius: 5px;"></a>
+            </div>
+            <div class="col-lg-6 col-md-offset-1">
+                <p><%= username %></p>
+                <textarea name="content" id="content" cols="80" rows="4"></textarea>
+                <button type="button" id="publish" class="btn btn-success">发表说说</button>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    </div>
+
+    <div class="container" style="padding-top:50px;">
+      <!-- 分页条-->
+      <nav>
+        <ul class="pagination">
+
+        </ul>
+      </nav>
+      <script type="text/javascript">
+        // 分页条的Ajax
+        $.get('/getallamount', function(result) {
+          var amount = parseInt(result);
+          // 总页数
+          pageamount = Math.ceil(amount / 10);
+          for (var i = 0; i < pageamount;i++) {
+            $('.pagination').append("<li><a href='javascript:void(0);'>" + i + "</a></li>");
+          }
+          $(".pagination li:first").addClass("active");
+          // 监听
+          $(".pagination li").click(function() {
+            var page = $(this).index();
+            getPage(page);
+            $(this).addClass("active").siblings().removeClass("active");
+          });
+        });
+      </script>
+
+      <div class="row" id="allshuoshuo" style="height:500px;">
+
+      </div>
+    </div>
+
+    <script type="text/template" id="model">
+        <div class="col-md-10 panel" style="box-shadow: 0 1px 8px 1.5px rgba(0, 0, 0, 0.35), 0 20px 70px 8px rgba(0, 0, 0, 0.25);">
+           <div class="padding-huge" style="padding: 15px;">
+            <h2><img src="/avator/{{=avator}}" style="width:50px;height:50px;padding: 3px;border:1px solid #ccc;box-shadow: 0 0 3px #ccc;border-radius: 5px;">
+            <span>{{=username}}</span></h2>
+
+            <p style="line-height: 1.8;">{{=content}}</p>
+
+            <p>{{=datatime}}</p>
+
+            <p><a class="btn btn-primary" href="#" role="button">查看详细</a></p>
+           </div>
+        </div>
+    </script>
+
+
+    <script type="text/javascript">
+      var $allshuoshuo = $("#allshuoshuo");
+      // 得到模板
+      var compiled = _.template($("#model").html());
+
+      getPage(0);
+      //请求分页的说说信息
+      function getPage(page) {
+        //将现在的页面内容清除
+        $("#allshuoshuo").html("");
+        $.ajax({
+            "url": "/getallpost?page=" + page,
+            "type": "get",
+            "success": function (result) {
+                //result是一个数组
+                //console.log(Array.isArray(result));
+                iterator(0);
+                //迭代器
+                function iterator(i) {
+                    if (i == result.length) {
+                        //在这里书写请求完毕之后做的事情
+                        return;  //不用继续迭代了
+                    }
+                    $.get("/getuserinfo?username=" + result[i].username, function (result2) {
+                                //修改字典，给字典增加一项
+                                result[i].avator = result2.avator;
+                                //组装模板
+                                var htmlstring = compiled(result[i]);
+                                //添加DOM
+                                $("#allshuoshuo").append($(htmlstring));
+                                iterator(i + 1);
+                            }
+                    );
+                }
+            }
+        });
+    }
+
+
+      // 文本框得到焦点，错误提示消失
+      $("input").focus(function(){
+        $("#danger").fadeOut();
+      });
+      // 说说发表按钮
+      $('#publish').click(function() {
+        $.post('/post', {
+          "content": $("#content").val()
+        }, function(result) {
+          if (result == '1') {
+            alert('说说发表成功！');
+          }
+          else {
+            alert('说说发表失败！');
+          }
+        })
+      });
+    </script>
+  </body>
+</html>

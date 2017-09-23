@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="/favicon.ico">
+    <title>班级说说</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/login_regist.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+  </head>
+  <body>
+    <% include header.ejs%>
+
+    <div id="content-container" class="container">
+      <div class="es-section login-section">
+        <div class="logon-tab">
+          <p>注册账号</p>
+        </div>
+        <!-- 注册页面 -->
+        <div class="login-main">
+          <form action="#" id="regist.-form" class="form-vertical" method="post">
+            <div class="form-group mb1">
+                <label class="control-label" for="regist_name">昵称</label>
+                <div class="controls">
+                  <input class="form-control input-lg" id="regist_name" type="text" name="_username" required
+                    placeholder='可以为中文'/>
+               </div>
+            </div>
+            <div class="form-group mb1">
+                <label class="control-label" for="regist_username">用户名</label>
+                <div class="controls">
+                  <input class="form-control input-lg" id="regist_username" type="text" name="_username" required
+                    placeholder='邮箱/手机/用户名'/>
+               </div>
+            </div>
+            <div class="form-group mbl">
+                <label class="control-label" for="regist_password">密码</label>
+                <div class="controls">
+                  <input class="form-control input-lg" id="regist_password" type="password" name="_password" required placeholder='密码最少6位'/>
+                </div>
+            </div>
+            <div class="form-group mbl">
+              <div class="controls">
+                <input type="checkbox" name="_remember_me" required> 同意遵守注册规定
+              </div>
+            </div>
+            <div class="form-group mbl">
+              <button id="regist" type="button" class="btn btn-primary btn-lg btn-block js-btn-login">注册</button>
+            </div>
+          </form>
+          <div id="used" class="alert alert-danger" role="alert">
+            该用户名已被人占用，请更换！
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('input').focus(function() {
+        $('#used').fadeOut();
+      });
+      // 注册按钮事件，用Ajax提交表单
+      $('#regist').click(function() {
+        $.post('/doregist', {
+          "name": $("#regist_name").val(),
+          "username": $("#regist_username").val(),
+          "password": $("#regist_password").val()
+        }, function(result) {
+          if (result == '1') {
+            alert('恭喜你，注册成功！将自动跳转到登录页');
+            window.location= '/setavator';
+          }
+          else if (result == '-1') {
+            // 用户名被占用
+            $('#used').fadeIn();
+          }
+          else if (result == '-3') {
+            alert('服务器错误');
+          }
+        })
+      });
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="/favicon.ico">
+    <title>更改头像</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row col-lg-6">
+        <h1>上传头像</h1>
+
+        <form action="/dosetavator" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="avator">更改头像</label>
+            <input type="file" class="form-control" id='avator' name='avator'/>
+          </div>
+          <button id='upload' type="submit" class="btn btn-primary">上传</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
